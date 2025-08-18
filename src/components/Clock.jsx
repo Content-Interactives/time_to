@@ -255,8 +255,6 @@ const Clock = ({ size = 150, borderColor = '#ff4242', hour = 10, minute = 10, is
 				</svg>
 				<div style={leftSupportStyle} />
 				<div style={rightSupportStyle} />
-				<div style={clapperStemStyle} />
-				<div style={clapperBarStyle} />
 				<div style={leftBellStyle} />
 				<div style={rightBellStyle} />
 				<div style={containerStyle}>
@@ -282,6 +280,16 @@ const Clock = ({ size = 150, borderColor = '#ff4242', hour = 10, minute = 10, is
 				<div style={rightLegStyle} />
 				<div style={leftFootStyle} />
 				<div style={rightFootStyle} />
+				{(() => {
+					const clapperPivotTop = clapperStemStyle.top + clapperStemHeight;
+					const barRelativeTop = clapperBarTop - clapperPivotTop;
+					return (
+						<div style={{ position: 'absolute', top: clapperPivotTop, left: '50%', transform: 'translateX(-50%)', width: 0, height: 0 }} className={isAnimating ? 'clapper-animate' : ''}>
+							<div style={{ position: 'absolute', bottom: 0, left: 0, width: Math.max(2, Math.round(size * 0.02)), height: clapperStemHeight, background: metallicFill, border: `${legBorder}px solid ${metallicBorder}`, borderRadius: 999, transform: 'translateX(-50%)' }} />
+							<div style={{ position: 'absolute', top: barRelativeTop, left: 0, width: clapperBarWidth, height: clapperBarHeight, background: metallicFill, border: `${legBorder}px solid ${metallicBorder}`, borderRadius: clapperBarHeight, boxShadow: '0 1px 3px rgba(0,0,0,0.1)', transform: 'translateX(-50%)' }} />
+						</div>
+					);
+				})()}
 			</div>
 		</div>
 	);

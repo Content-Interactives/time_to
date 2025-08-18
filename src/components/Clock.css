@@ -15,3 +15,34 @@
 	90% { transform: translateX(0.8%) rotate(1.6deg); }
 	100% { transform: translateX(0) rotate(0deg); }
 }
+
+/* Clapper swing animation */
+.clapper-bar-animate {
+	animation: clapper-swing 1.6s ease-in-out infinite;
+	transform-origin: 50% 50%;
+	will-change: rotate;
+}
+
+.clapper-stem-animate {
+	animation: clapper-swing 1.6s ease-in-out infinite;
+	transform-origin: 50% 0%;
+	will-change: rotate;
+}
+
+/* Shared wrapper animation (pivot at bottom of stem) */
+.clapper-animate {
+	animation: clapper-swing 1.6s ease-in-out infinite;
+	transform-origin: 50% 0%;
+	will-change: rotate;
+}
+
+@keyframes clapper-swing {
+	0% { rotate: 0deg; }
+	15% { rotate: -10deg; }
+	30% { rotate: 10deg; }
+	45% { rotate: -8deg; }
+	60% { rotate: 8deg; }
+	75% { rotate: -4deg; }
+	90% { rotate: 4deg; }
+	100% { rotate: 0deg; }
+}

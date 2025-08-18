@@ -17,6 +17,7 @@ import Flexi_ThumbsUp from './assets/flexi_thumbsup.png'
 import './ui/reused-animations/fade.css';
 import './ui/reused-animations/scale.css';
 import './ui/reused-animations/glow.css';
+import './Snooze.css';
 
 const TimeTo = () => {
     // State Management
@@ -83,7 +84,7 @@ const TimeTo = () => {
 			setTimeout(() => {
 				setIsClockAnimating(false);
 				generateRandomTime();
-			}, 2000);
+			}, 3000);
 		} else {
 			setShowSnooze(true);
 		}
@@ -106,7 +107,7 @@ const TimeTo = () => {
     // Render
 	return (
         <Container
-            text="Time To Practice" 
+            text="Time Phrases Practice" 
             showResetButton={false}
             borderColor="#FF7B00"
             showSoundButton={true}
@@ -121,11 +122,14 @@ const TimeTo = () => {
                 <img src={chooseFlexiImage(isClockAnimating)} alt="Flexi" className='relative top-[20px]' style={{ width: `${flexiWidth}px`, height: 'auto' }} />
                 {showSnooze && (
 					<div className='absolute -top-[5px] right-[-33%] -translate-x-1/2 flex flex-col items-center text-purple-600 drop-shadow-sm select-none pointer-events-none'>
-						<div className='font-extrabold text-4xl rotate-[10deg]'>Z</div>
-						<div className='font-extrabold text-2xl rotate-[-10deg] opacity-90'>Z</div>
-						<div className='font-extrabold text-xl rotate-[10deg] opacity-70'>Z</div>
+						<div className='font-extrabold text-4xl rotate-[10deg] snooze-z snooze-z--delay-1'>Z</div>
+						<div className='font-extrabold text-2xl rotate-[-10deg] opacity-80 snooze-z snooze-z--delay-2'>Z</div>
+						<div className='font-extrabold text-xl rotate-[10deg] opacity-60 snooze-z snooze-z--delay-3'>Z</div>
 					</div>
 				)}
+                <div>
+                    
+                </div>
             </div>
 
             <div className='absolute bottom-[8%] left-[50%] -translate-x-1/2 w-[90%] flex justify-between items-center gap-2'>

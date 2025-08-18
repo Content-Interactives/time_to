@@ -1,0 +1,27 @@
+/* Subtle floating animation for snooze Zs */
+.snooze-z {
+	animation: snooze-float 1.6s ease-in-out infinite;
+	will-change: translate, opacity;
+}
+
+.snooze-z--delay-1 { 
+	animation-delay: 0s; 
+}
+.snooze-z--delay-2 { 
+	animation-delay: 0.15s; 
+}
+.snooze-z--delay-3 { 
+	animation-delay: 0.3s; 
+}
+
+@keyframes snooze-float {
+	0% { 
+		translate: 0 0;
+	}
+	50% { 
+		translate: 6px 0px; /* more side-to-side, slight up */
+	}
+	100% { 
+		translate: 0 0;
+	}
+} 
