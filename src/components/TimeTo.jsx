@@ -26,6 +26,7 @@ const TimeTo = () => {
     const [minute, setMinute] = useState(30);
 	const [showSnooze, setShowSnooze] = useState(false);
 	const snoozeTimeoutRef = useRef(null);
+	const [wakeMessage, setWakeMessage] = useState('');
 	
     // Functions
     const chooseFlexiImage = (animating) => {
@@ -33,6 +34,14 @@ const TimeTo = () => {
 		const otherImages = [Flexi_Excited, Flexi_Hello, Flexi_Hey, Flexi_Stars, Flexi_ThumbsUp];
 		return otherImages[Math.floor(Math.random() * otherImages.length)];
 	};
+
+	const wakeMessages = [
+		"Thanks!",
+		"I'm up!",
+		"I'm awake!",
+		"Ready to go!",
+		"Good morning!"
+	];
 
 	const generateRandomTime = () => {
 		const allowedMinutes = [0, 15, 30, 45];
@@ -76,6 +85,7 @@ const TimeTo = () => {
 		const correctPhrase = getPhraseForTime(hour, minute);
 		if (!correctPhrase) return;
 		if (answerText.trim().toLowerCase() === correctPhrase.trim().toLowerCase()) {
+			setWakeMessage(wakeMessages[Math.floor(Math.random() * wakeMessages.length)]);
 			triggerConfetti();
 			setIsClockAnimating(true);
 			// hide snooze Zs if showing
@@ -127,9 +137,11 @@ const TimeTo = () => {
 						<div className='font-extrabold text-xl rotate-[10deg] opacity-60 snooze-z snooze-z--delay-3'>Z</div>
 					</div>
 				)}
-                <div>
-                    
-                </div>
+				{isClockAnimating && wakeMessage && (
+					<div className='absolute top-[38px] left-[90%] -translate-x-1/2 text-[#FF7B00] font-extrabold text-sm select-none w-[150px] text-right'>
+						{wakeMessage}
+					</div>
+				)}
             </div>
 
             <div className='absolute bottom-[8%] left-[50%] -translate-x-1/2 w-[90%] flex justify-between items-center gap-2'>
