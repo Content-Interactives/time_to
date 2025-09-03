@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
+import audio from './Time audio.mp3';
 
 // UI Components Imports
 import { Container } from './ui/reused-ui/Container.jsx'
@@ -27,7 +28,8 @@ const TimeTo = () => {
 	const [showSnooze, setShowSnooze] = useState(false);
 	const snoozeTimeoutRef = useRef(null);
 	const [wakeMessage, setWakeMessage] = useState('');
-	
+	const audioRef = useRef(new Audio(audio));
+
     // Functions
     const chooseFlexiImage = (animating) => {
 		if (!animating) return Flexi_Faceplant;
@@ -107,6 +109,11 @@ const TimeTo = () => {
 		return () => window.removeEventListener('resize', onResize);
 	}, []);
 
+	const handleSoundClick = () => {
+		audioRef.current.currentTime = 0; // Reset to beginning
+		audioRef.current.play()
+	};
+
     // Constants
 	const baseClockSize = 150;
 	const baseFlexiWidth = 100;
@@ -121,7 +128,7 @@ const TimeTo = () => {
             showResetButton={false}
             borderColor="#FF7B00"
             showSoundButton={true}
-            onSound={null}
+            onSound={handleSoundClick}
         >
             <div className='text-center text-sm text-gray-500 p-5'>
                 Flexi is asleep! Click the correct time to activate the alarm clock to wake him up, or else he will be late for school!
