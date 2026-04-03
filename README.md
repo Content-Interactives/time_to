@@ -1,42 +1,76 @@
 # Time To Interactive
 
-This repository contains the code for the **Time To Interactive**, designed to help elementary students explore and understand time concepts—demonstrating how to read clocks and interpret phrases like "half past," "quarter past," and "quarter to" through interactive visuals and instant feedback.
+React single-page app for analog-clock time phrases. Vite bundles the UI; production is static assets suitable for GitHub Pages.
+
+**Production:** [https://content-interactives.github.io/time_to/](https://content-interactives.github.io/time_to/)
 
 ---
 
-## 🔗 Live Interactive
+## Stack
 
-Try it out here:  
-👉 https://content-interactives.github.io/time_to/
+| Layer | Packages / tooling |
+|--------|---------------------|
+| UI | React 19 (`react`, `react-dom`) |
+| Build | Vite 7, `@vitejs/plugin-react` |
+| Styling | Tailwind CSS 3, PostCSS, Autoprefixer |
+| Feedback | `canvas-confetti` (correct-answer celebration) |
+| Lint | ESLint 9 (flat config), React Hooks / Refresh plugins |
+| Deploy | `gh-pages` → `dist` |
 
----
-
-## 🌐 Where This Interactive Is Being Used
-
-This interactive is currently featured in the following locations:
-
-- <img width="20" height="20" alt="image" src="https://github.com/user-attachments/assets/5d12571f-8e12-4441-98ab-c0bc94069a96" /> **CK‑12 Intent Response**  
-  - 👉 PRODUCTION: [PENDING]  
-  - 👉 MASTER: [PENDING]
-- 📘 **CK‑12 Flexbooks**  
-  - 👉 [PENDING: Book/lesson link where this interactive appears]
+Runtime dependencies are ES modules; `package.json` sets `"type": "module"`.
 
 ---
 
-## 📚 Standards & Subjects
+## Build and routing
 
-This interactive aligns with the following topics and standards:
+`vite.config.js` sets `base: '/time_to/'` so asset URLs resolve under the GitHub Pages project path. For a different host or root path, change `base` accordingly.
 
-- **📂 Subject Area**: Elementary Math (Grade 2–3)  
-- **🕒 Topic**: Telling Time — Understanding how to read analog clocks and interpret time phrases like "half past," "quarter past," and "quarter to"  
-- **📏 Common Core**:  
-  - **CCSS.MATH.CONTENT.2.MD.C.7** – Tell and write time from analog and digital clocks to the nearest five minutes, using a.m. and p.m.  
-  - **CCSS.MATH.CONTENT.3.MD.A.1** – Solve problems involving measurement and estimation of intervals of time.
+| Script | Command |
+|--------|---------|
+| Development | `npm run dev` — Vite dev server (HMR) |
+| Production bundle | `npm run build` — output in `dist/` |
+| Local preview of `dist` | `npm run preview` |
+| Deploy | `npm run deploy` — runs `predeploy` (`vite build`) then `gh-pages -d dist` |
 
 ---
 
-## 🛠️ Developer Notes
+## Repository layout
 
-- **Built with**: React, Javascript, Tailwind CSS, Vite ([github.com](https://github.com/Content-Interactives/time_to))  
-- **Deployed via**: GitHub Pages  
-- **See**: `src/`, `public/`, `package.json`, `vite.config.ts`, and related config files ([github.com](https://github.com/Content-Interactives/time_to))
+| Path | Role |
+|------|------|
+| `index.html` | Shell; mounts `#root` |
+| `src/main.jsx` | `createRoot`, `StrictMode`, global CSS import |
+| `src/App.jsx` | Renders `TimeTo` |
+| `src/components/TimeTo.jsx` | Game state, phrase logic, layout, audio |
+| `src/components/Clock.jsx` | Alarm-clock visuals; hand angles from `hour` / `minute` |
+| `src/components/ui/reused-ui/*` | Shared chrome (`Container`, buttons, etc.) |
+| `src/components/*.css` | Component styles (clock face, snooze animation, etc.) |
+| `src/index.css` | Tailwind entry (`@tailwind` directives) |
+| `public/` | Static files copied to `dist` as-is |
+
+---
+
+## Application logic (summary)
+
+- **Random times:** Hour in 1–12; minutes restricted to `{0, 15, 30, 45}` (`generateRandomTime`).
+- **Target phrases:** `getPhraseForTime` maps those minutes to *o'clock*, *Quarter past*, *Half past*, *Quarter to* (next hour in 12-hour form). Comparison is case-insensitive trimmed string equality.
+- **Clock geometry:** `Clock.jsx` normalizes hour (mod 12) and minute (mod 60). Minute hand: `minute * 6`°; hour hand: `hour * 30 + minute * 0.5`°. Face, ticks, numerals, and alarm styling are DOM/CSS (no canvas/SVG for the dial except handle path in JSX read further in file).
+- **UX:** Four answer buttons always show the four phrase variants for the current displayed hour context; wrong taps toggle a short “snooze” visual; correct tap plays confetti, short animation gate (`isClockAnimating`), then a new random time. Optional sound button triggers bundled MP3 via `HTMLAudioElement`.
+- **Responsive:** Viewport width scales clock and mascot below ~345px width.
+
+---
+
+## Product integration
+
+CK-12 and other embed targets: production/master and Flexbook links are tracked in-repo where still pending.
+
+- **CK-12 Intent Response** — production / master: pending  
+- **CK-12 Flexbooks** — book/lesson link: pending  
+
+Upstream repo reference: [github.com/Content-Interactives/time_to](https://github.com/Content-Interactives/time_to).
+
+---
+
+## Educational alignment
+
+Grade band, topic, and Common Core citations are listed in [`Standards.md`](Standards.md) (e.g. CCSS 2.MD.C.7, 3.MD.A.1).
